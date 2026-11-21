@@ -23,8 +23,7 @@ public class PlayerMove : MonoBehaviour
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
 
-        Vector3 moveDirection = new Vector3(horizontal, 0f, vertical);
-        transform.Translate(moveDirection * Time.deltaTime * speed);
+        rb.velocity = transform.forward * vertical * speed + transform.right * horizontal * speed + Vector3.up * rb.velocity.y;
 
         //Jump
         canJump = Physics.BoxCast(transform.position, Vector3.one/2, Vector3.down, Quaternion.identity, 2f,ground);

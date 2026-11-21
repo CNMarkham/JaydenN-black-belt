@@ -18,17 +18,26 @@ public class Climb : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && canClimb ==  true)
         {
-            player.rb.AddForce(Vector3.up * 4f, ForceMode.Impulse);
+            player.rb.AddForce(Vector3.up * 8f, ForceMode.Impulse);
+            player.rb.useGravity = true;
+            canClimb = false;
         }
     }
+//need player to not be able to climb and jump to go higher than it should be able to
 
-
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
+        player.rb.velocity = Vector3.zero;
+        player.rb.useGravity = false;
         canClimb = true;
+        if(collision.gameObject.GetComponent<Rigidbody>() != null)
+        {
+            collision.gameObject.GetComponent<Rigidbody>().useGravity = true;
+        }
     }
-    private void OnCollisionExit(Collision collision)
+    private void OnTriggerExit(Collider collision)
     {
+        player.rb.useGravity = true;
         canClimb = false;
     }
 }
